@@ -1,5 +1,5 @@
 					 
-![gameflow](https://user-images.githubusercontent.com/38033580/43312920-59e278f6-9197-11e8-8d85-01a5bc679cbe.PNG)
+![ccc](https://user-images.githubusercontent.com/38033580/47269862-22b0da80-d56c-11e8-9d2b-66d0c6086a32.jpg)
 
 
                                                  Description
@@ -9,6 +9,3 @@ Tools:
 ● IDE: Visual C++ 2015 Express edition
 
 ● Language: C++
-
-
-

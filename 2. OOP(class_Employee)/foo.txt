@@ -1,0 +1,6 @@
+0 1 David 8
+1 2 Tom 1200
+0 4 Lisa 110
+0 3 Max 9
+1 6 Andrew 900
+1 5 Cannye 8
