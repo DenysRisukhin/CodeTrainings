@@ -169,65 +169,82 @@ int main() {
 
 	ofstream file;
 
-	file.open("foo.txt");
+	file.exceptions(ofstream::badbit | ofstream::failbit);
 
-	if (!file.is_open())
+	try
 	{
-		cerr << "Error: File can't be opened \n";
-		terminate();
-	}
+		file.open("foo.txt");
 
-	for (auto iter = reandomData.begin(); iter != reandomData.end(); iter++)
-		file << (*iter).getType() << " " << (*iter).getID() << " " << (*iter).getName().c_str() << " " << (*iter).getSalary() << endl;
+		if (!file.is_open())
+		{
+			//cerr << "Error: File can't be opened \n";
+			//terminate();
 
-	file.close();
-
-	// read from file
-
-	FILE *fileFoo;
-
-	fileFoo = fopen("foo.txt", "r");
-
-	if (!fileFoo)
-	{
-		cerr << "Error: File can't be opened \n";
-		terminate();
-	}
-
-	list<Employee*> employee;
-
-	char name[20];
-	int type = 0;
-	int id = 0;
-	float salary = 0;
-	int i = 0;
-
-	while (fscanf(fileFoo, "%i %i %s %f \n", &type, &(id), name, &(salary)) != EOF)
-	{
-		if (type)
-			employee.push_back(new fixedEmployee(id, name, salary));
-		else
-			employee.push_back(new HourlyEmployee(id, name, salary));
-		i++;
-	}
-
-	fclose(fileFoo);
-
-	for(auto iter = employee.begin(); iter != employee.end(); iter++)
-		(*iter)->getSalary();
-
-	employee.sort(lessEmployee());
-
-	int counter = 0;
-
-	for (auto iter = employee.begin(); iter != employee.end(); iter++)
-	{
-		if (counter < 5) {
-			std::cout << (*iter)->getName().c_str() << endl;
+			throw myException("Error: File can't be opened \n", 1);
 		}
-		counter++;
-	}
 
+		for (auto iter = reandomData.begin(); iter != reandomData.end(); iter++)
+			file << (*iter).getType() << " " << (*iter).getID() << " " << (*iter).getName().c_str() << " " << (*iter).getSalary() << endl;
+
+		file.close();
+
+		// read from file
+
+		FILE *fileFoo;
+
+		fileFoo = fopen("foo.txt", "r");
+
+		if (!fileFoo)
+		{
+			//cerr << "Error: File can't be opened \n";
+			//terminate();
+			throw exception("Error: File can't be opened \n");
+		}
+
+		list<Employee*> employee;
+
+		char name[20];
+		int type = 0;
+		int id = 0;
+		float salary = 0;
+		int i = 0;
+
+		while (fscanf(fileFoo, "%i %i %s %f \n", &type, &(id), name, &(salary)) != EOF)
+		{
+			if (type)
+				employee.push_back(new fixedEmployee(id, name, salary));
+			else
+				employee.push_back(new HourlyEmployee(id, name, salary));
+			i++;
+		}
+
+		fclose(fileFoo);
+
+		for (auto iter = employee.begin(); iter != employee.end(); iter++)
+			(*iter)->getSalary();
+
+		employee.sort(lessEmployee());
+
+		int counter = 0;
+
+		for (auto iter = employee.begin(); iter != employee.end(); iter++)
+		{
+			if (counter < 5) {
+				std::cout << (*iter)->getName().c_str() << endl;
+			}
+			counter++;
+		}
+	}
+	catch (myException &ex)
+	{
+		cout << "Block 1 catched" << ex.what() << endl;
+		cout << "Data state" << ex.getDataState() << endl; 
+	}
+	catch (exception &ex)
+	{
+		cout << "Block 1 catched" << ex.what() << endl;
+	}
+	
 	cout << endl;
 
 	system("pause");
